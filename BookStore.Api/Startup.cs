@@ -1,5 +1,7 @@
 using BookStore.Core;
+using BookStore.Core.Services;
 using BookStore.Data;
+using BookStore.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +33,8 @@ namespace BookStore.Api
         {
             services.AddControllers();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IAuthorService, AuthorService>();
+            services.AddTransient<IBookService, BookService>();
             services.AddDbContext<BookStoreDbContext>(
                 options => options.UseSqlServer(
                     Configuration.GetConnectionString("DevConnection"), 
