@@ -1,7 +1,10 @@
+using BookStore.Core;
+using BookStore.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,8 +29,13 @@ namespace BookStore.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddDbContext<BookStoreDbContext>(
+                options => options.UseSqlServer(
+                    Configuration.GetConnectionString("DevConnection"), 
+                    x => x.MigrationsAssembly("BookStore.Data"))
+                );
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BookStore.Api", Version = "v1" });
