@@ -17,6 +17,7 @@ namespace BookStore.Services
 
         public async Task<Book> CreateBook(Book newBook)
         {
+            newBook.CreateAt = System.DateTime.Now;
             await unitOfWork.Books.AddAsync(newBook);
             await unitOfWork.CommitAsync();
             return newBook;

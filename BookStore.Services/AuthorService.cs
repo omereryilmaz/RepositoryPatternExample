@@ -17,6 +17,7 @@ namespace BookStore.Services
 
         public async Task<Author> CreateAuthor(Author newAuthor)
         {
+            newAuthor.CreateAt = System.DateTime.Now;
             await unitOfWork.Authors.AddAsync(newAuthor);
             await unitOfWork.CommitAsync();
             return newAuthor;
